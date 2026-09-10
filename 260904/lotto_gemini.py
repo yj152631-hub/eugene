@@ -82,32 +82,28 @@ st.markdown(f"""
         font-weight: normal !important;
         animation: blink 1.2s infinite ease-in-out;
     }}
-    
-    /* [완벽 해결] 생성 시각 칸(st.info) 가로 길이를 글씨 크기에 딱 맞춤 */
-    div[data-testid="stInfo"] {{
+
+    /* 생성 시각 칸: 직접 그린 HTML 박스 (글씨에 딱 맞음) */
+    .custom-info-box {{
+        display: inline-block !important;
         background-color: #E2FDCB !important;
         border: 1px solid #C5E6A3 !important;
         color: #222222 !important;
-        display: inline-block !important;
-        width: auto !important;
-        margin: 15px auto !important;
         padding: 8px 20px !important;
-        text-align: center !important;
-        border-radius: 10px;
-    }}
-    div[data-testid="stInfo"] * {{
-        font-family: 'Griun_Fromsol-Rg', sans-serif !important;
-        color: #222222 !important;
+        border-radius: 10px !important;
+        font-size: 1.0rem !important;
         font-weight: normal !important;
+        margin: 15px auto !important;
     }}
 
-    /* [완벽 해결] 첫 번째 번호 생성 버튼 가로 길이를 글씨 크기에 맞춤 */
-    div.st-key-lotto_generate_btn {{
+    /* 번호 생성 버튼: 부모 컨테이너까지 flex로 잡아 중앙 정렬 + 버튼은 내용 너비 */
+    div.st-key-lotto_generate_btn,
+    div.st-key-lotto_generate_btn > div[data-testid="stElementContainer"] {{
         display: flex !important;
         justify-content: center !important;
         width: 100% !important;
     }}
-    div.st-key-lotto_generate_btn > button {{
+    div.st-key-lotto_generate_btn button {{
         background-color: #4CAF50 !important;
         color: white !important;
         font-family: 'Griun_Fromsol-Rg', sans-serif !important;
@@ -119,25 +115,19 @@ st.markdown(f"""
         box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;
         transition: 0.3s !important;
         width: auto !important;
-        display: inline-block !important;
-        margin: 0 auto !important;
+        white-space: nowrap !important;
     }}
-    div.st-key-lotto_generate_btn > button * {{
+    div.st-key-lotto_generate_btn button * {{
         color: white !important;
         font-weight: normal !important;
     }}
-    div.st-key-lotto_generate_btn > button:hover {{
+    div.st-key-lotto_generate_btn button:hover {{
         background-color: #45a049 !important;
         box-shadow: 0 6px 10px rgba(0,0,0,0.2) !important;
     }}
 
-    /* [완벽 해결] 다시 생성하기 버튼 가로 길이를 글씨 크기에 맞춤 */
-    div.st-key-re_generate_btn {{
-        display: flex !important;
-        justify-content: center !important;
-        width: 100% !important;
-    }}
-    div.st-key-re_generate_btn > button {{
+    /* 다시 생성하기 버튼 */
+    div.st-key-re_generate_btn button {{
         background-color: #4CAF50 !important;
         color: white !important;
         font-family: 'Griun_Fromsol-Rg', sans-serif !important;
@@ -149,24 +139,18 @@ st.markdown(f"""
         box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;
         transition: 0.3s !important;
         width: auto !important;
-        display: inline-block !important;
-        margin: 0 auto !important;
+        white-space: nowrap !important;
     }}
-    div.st-key-re_generate_btn > button * {{
+    div.st-key-re_generate_btn button * {{
         color: white !important;
         font-weight: normal !important;
     }}
-    div.st-key-re_generate_btn > button:hover {{
+    div.st-key-re_generate_btn button:hover {{
         background-color: #45a049 !important;
         box-shadow: 0 6px 10px rgba(0,0,0,0.2) !important;
     }}
 
-    /* [완벽 해결] 로또 사러 가기 버튼 가로 길이를 글씨 크기에 맞춤 */
-    div.stLinkButton {{
-        display: flex !important;
-        justify-content: center !important;
-        width: 100% !important;
-    }}
+    /* 로또 사러 가기 버튼 */
     div.stLinkButton > a {{
         background-color: #FFFFFF !important;
         color: #2E7D32 !important;
@@ -180,9 +164,7 @@ st.markdown(f"""
         text-decoration: none !important;
         transition: 0.3s !important;
         width: auto !important;
-        display: inline-block !important;
-        text-align: center !important;
-        margin: 0 auto !important;
+        white-space: nowrap !important;
     }}
     div.stLinkButton > a * {{
         color: #2E7D32 !important;
@@ -192,6 +174,25 @@ st.markdown(f"""
         background-color: #F1F8F5 !important;
         color: #1B5E20 !important;
         border-color: #45a049 !important;
+    }}
+
+    /* 하단 두 버튼을 글씨 크기대로 가운데 나란히 배치 */
+    div.st-key-bottom_btns > div[data-testid="stHorizontalBlock"] {{
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: center !important;
+        align-items: center !important;
+        gap: 12px !important;
+        flex-wrap: wrap !important;
+    }}
+    div.st-key-bottom_btns div[data-testid="stColumn"] {{
+        width: auto !important;
+        flex: 0 0 auto !important;
+        min-width: 0 !important;
+    }}
+    div.st-key-bottom_btns div[data-testid="stColumn"] > div {{
+        display: flex !important;
+        justify-content: center !important;
     }}
 
     @media (max-width: 768px) {{
@@ -246,19 +247,20 @@ if st.session_state.generated:
     st.balloons()  
     
     now_str = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    st.info(f'⏱️ 생성 시각 : {now_str}')
+    st.markdown(f'<div style="text-align:center;"><span class="custom-info-box">⏱️ 생성 시각 : {now_str}</span></div>', unsafe_allow_html=True)
 
     for set_index in range(1, 6):
         lotto_nums = lotto_one_set()
         formatted_balls = " ".join([f"{get_ball_emoji(n)} {n:02d}" for n in lotto_nums])
-        st.markdown(f'<p class="lotto-result-text" style="font-size: 1.1em; text-align: center; margin: 6px; color: #222222; font-weight: normal;">{set_index}세트 : &nbsp; {formatted_balls}</p>', unsafe_allow_html=True)
+        st.markdown(f'<p class="lotto-result-text" style="font-size: 1.1em; text-align: center; margin: 6px; color: #222222; font-weight: normal;">{set_index}세트 : &nbsp; {formatted_balls}</p >', unsafe_allow_html=True)
 
     st.markdown("---")
-    st.markdown('<p style="font-size: 1.3em; text-align: center; font-weight: normal; color: #111111; margin-bottom: 10px;">🍀 행운을 빕니다! 🍀</p>', unsafe_allow_html=True)
+    st.markdown('<p style="font-size: 1.3em; text-align: center; font-weight: normal; color: #111111; margin-bottom: 10px;">🍀 행운을 빕니다! 🍀</p >', unsafe_allow_html=True)
     
-    col_btn1, col_btn2 = st.columns(2)
-    with col_btn1:
-        st.link_button("🛒 로또 사러 가기", "https://www.dhlottery.co.kr/")
-    with col_btn2:
-        if st.button("🔄 다시 생성하기", key='re_generate_btn'):
-            st.rerun()
+    with st.container(key='bottom_btns'):
+        col_btn1, col_btn2 = st.columns(2)
+        with col_btn1:
+            st.link_button("🛒 로또 사러 가기", "https://www.dhlottery.co.kr/")
+        with col_btn2:
+            if st.button("🔄 다시 생성하기", key='re_generate_btn'):
+                st.rerun()
