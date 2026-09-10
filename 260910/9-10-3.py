@@ -72,15 +72,17 @@ CURRENCIES = {
 st.title("🌿 스마트 실시간 환율 계산기")
 st.markdown("실시간 환율 변동 확인과 금액별 맞춤 물가 체감 가이드, 수수료 계산 및 다중 통화 비교 기능을 제공합니다.")
 
-# 사이드바: 주요 통화 실시간 모니터링 대시보드
-st.sidebar.header("📌 주요 통화 모니터링 (vs USD)")
+# 사이드바: 주요 통화 실시간 모니터링 대시보드 (기준: KRW)
+st.sidebar.header("📌 주요 통화 모니터링 (vs 원화)")
 try:
-    sidebar_res = requests.get(f"https://v6.exchangerate-api.com/v6/{EXCHANGE_API_KEY}/latest/USD")
+    sidebar_res = requests.get(f"https://v6.exchangerate-api.com/v6/{EXCHANGE_API_KEY}/latest/KRW")
     if sidebar_res.status_code == 200:
         sidebar_rates = sidebar_res.json()["conversion_rates"]
         for name, code in CURRENCIES.items():
-            if code != "USD" and code in sidebar_rates:
-                st.sidebar.text(f"1 USD = {sidebar_rates[code]:,.2f} {code}")
+            if code != "KRW" and code in sidebar_rates:
+                rate_value = sidebar_rates[code]
+                # JPY 같은 경우 100엔 기준이 보기 편할 수 있으므로 그대로 두되 소수점 처리
+                st.sidebar.text(f"1 {code} = {(1/rate_value):,.2f} KRW")
     else:
         st.sidebar.text("모니터링 데이터 로드 실패")
 except Exception:
@@ -140,12 +142,10 @@ if st.button("환율 계산하기"):
                 )
             
             # 원화(KRW) 기준 환산치 계산 (물가 체감 가이드 티어 분류를 위함)
-            # target_code가 KRW가 아니면, target -> KRW 환율을 가져와서 계산
             krw_value = 0
             if target_code == "KRW":
                 krw_value = final_result
             else:
-                # target에서 KRW로 가는 환율 조회
                 krw_res = requests.get(f"https://v6.exchangerate-api.com/v6/{EXCHANGE_API_KEY}/pair/{target_code}/KRW/1")
                 if krw_res.status_code == 200 and krw_res.json().get("result") == "success":
                     krw_value = final_result * krw_res.json().get("conversion_rate", 0)
