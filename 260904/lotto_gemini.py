@@ -83,15 +83,17 @@ st.markdown(f"""
         animation: blink 1.2s infinite ease-in-out;
     }}
     
-    /* 생성 시각 칸 가로 폭을 글씨 크기에 맞춤 및 중앙 정렬 */
+    /* [수정] 생성 시각 칸(st.info) 가로 길이를 글씨 크기에 딱 맞추고 중앙 정렬 */
     div[data-testid="stInfo"] {{
         background-color: #E2FDCB !important;
         border: 1px solid #C5E6A3 !important;
         color: #222222 !important;
         width: fit-content !important;
+        max-width: 100% !important;
         margin: 15px auto !important;
         text-align: center !important;
         border-radius: 10px;
+        display: table !important;
     }}
     div[data-testid="stInfo"] * {{
         font-family: 'Griun_Fromsol-Rg', sans-serif !important;
@@ -99,7 +101,7 @@ st.markdown(f"""
         font-weight: normal !important;
     }}
 
-    /* 첫 번째 번호 생성 버튼 가로 길이 글씨에 맞춤 및 중앙 정렬 */
+    /* [수정] 첫 번째 번호 생성 버튼 및 컨테이너 가로 길이 글씨에 맞춤 */
     div.st-key-lotto_generate_btn {{
         display: flex !important;
         justify-content: center !important;
@@ -116,7 +118,9 @@ st.markdown(f"""
         border: none !important;
         box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;
         transition: 0.3s !important;
-        width: auto !important;
+        width: fit-content !important;
+        margin: 0 auto !important;
+        display: block !important;
     }}
     div.st-key-lotto_generate_btn > button * {{
         color: white !important;
@@ -127,7 +131,7 @@ st.markdown(f"""
         box-shadow: 0 6px 10px rgba(0,0,0,0.2) !important;
     }}
 
-    /* 다시 생성하기 버튼 가로 길이 글씨에 맞춤 및 중앙 정렬 */
+    /* [수정] 다시 생성하기 버튼 가로 길이를 글씨 크기에 맞추고 중앙 정렬 */
     div.st-key-re_generate_btn {{
         display: flex !important;
         justify-content: center !important;
@@ -144,8 +148,9 @@ st.markdown(f"""
         border: none !important;
         box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;
         transition: 0.3s !important;
-        width: auto !important;
+        width: fit-content !important;
         margin: 0 auto !important;
+        display: block !important;
     }}
     div.st-key-re_generate_btn > button * {{
         color: white !important;
@@ -156,7 +161,7 @@ st.markdown(f"""
         box-shadow: 0 6px 10px rgba(0,0,0,0.2) !important;
     }}
 
-    /* 로또 사러 가기 버튼 가로 길이 글씨에 맞춤 및 중앙 정렬 */
+    /* [수정] 로또 사러 가기 버튼 가로 길이를 글씨 크기에 맞추고 중앙 정렬 */
     div.stLinkButton {{
         display: flex !important;
         justify-content: center !important;
@@ -174,7 +179,7 @@ st.markdown(f"""
         box-shadow: 0 4px 6px rgba(0,0,0,0.05) !important;
         text-decoration: none !important;
         transition: 0.3s !important;
-        width: auto !important;
+        width: fit-content !important;
         display: inline-block !important;
         text-align: center !important;
         margin: 0 auto !important;
@@ -188,6 +193,7 @@ st.markdown(f"""
         color: #1B5E20 !important;
         border-color: #45a049 !important;
     }}
+
     @media (max-width: 768px) {{
         .lotto-result-text {{
             font-size: 0.88em !important;
