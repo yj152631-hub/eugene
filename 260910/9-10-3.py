@@ -2,59 +2,74 @@ import os
 from pathlib import Path
 import requests
 import streamlit as st
-from dotenv import load_dotenv
+import base64  # 폰트 변환을 위해 추가된 모듈
 
 # 페이지 설정 (반응형 모바일 최적화 레이아웃)
 st.set_page_config(
-    page_title="스마트 실시간 환율 계산기",
+    page_title="스마트 무역/환율 대시보드",
     page_icon="💱",
     layout="wide"
 )
 
-# 연두색 테마 및 커스텀 폰트(Griun_Fromsol-Rg.ttf) 적용 CSS
-st.markdown("""
-<style>
-    @font-face {
-        font-family: 'Griun_Fromsol';
-        src: url('Griun_Fromsol-Rg.ttf') format('truetype');
-        font-weight: normal;
-        font-style: normal;
-    }
-    
-    html, body, [class*="css"] {
-        font-family: 'Griun_Fromsol', sans-serif;
-        color: #2D3748;
-    }
-    
-    .stApp {
-        background-color: #F4FBF7;
-    }
-    
-    /* 버튼 스타일 (연두색 계열) */
-    .stButton>button {
-        background-color: #81C784;
-        color: white;
-        border-radius: 10px;
-        border: none;
-        font-weight: bold;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    }
-    .stButton>button:hover {
-        background-color: #66BB6A;
-        color: white;
-    }
-</style>
-""", unsafe_allow_html=True)
+# ----------------------------------------
+# 폰트 파일을 Base64로 변환하여 CSS에 적용하는 로직
+# ----------------------------------------
+font_path = "Griun_Fromsol-Rg.ttf"
+font_css = ""
 
-# .env 파일 로드 (상위 폴더 기준)
-env_path = Path(__file__).resolve().parent.parent / ".env"
-load_dotenv(dotenv_path=env_path)
+# 폰트 파일이 같은 폴더에 있는지 확인 후 변환
+if os.path.exists(font_path):
+    with open(font_path, "rb") as f:
+        font_data = f.read()
+    font_base64 = base64.b64encode(font_data).decode("utf-8")
+    
+    # f-string을 사용하므로 CSS의 중괄호는 {{ }}로 두 번 감싸야 합니다.
+    font_css = f"""
+    <style>
+        @font-face {{
+            font-family: 'Griun_Fromsol';
+            src: url('data:font/ttf;charset=utf-8;base64,{font_base64}') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }}
+        
+        html, body, [class*="css"] {{
+            font-family: 'Griun_Fromsol', sans-serif !important;
+            color: #2D3748;
+        }}
+        
+        .stApp {{
+            background-color: #F4FBF7;
+        }}
+        
+        /* 버튼 스타일 (연두색 계열) */
+        .stButton>button {{
+            background-color: #81C784;
+            color: white;
+            border-radius: 10px;
+            border: none;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }}
+        .stButton>button:hover {{
+            background-color: #66BB6A;
+            color: white;
+        }}
+    </style>
+    """
+else:
+    st.warning("경고: 'Griun_Fromsol-Rg.ttf' 폰트 파일을 찾을 수 없습니다. 기본 폰트로 렌더링됩니다.")
 
-EXCHANGE_API_KEY = os.getenv("EXCHANGE_API_KEY")
+# 변환된 CSS 적용
+if font_css:
+    st.markdown(font_css, unsafe_allow_html=True)
+# ----------------------------------------
 
-# API 키 검증
-if not EXCHANGE_API_KEY:
-    st.error("상위 폴더의 .env 파일에 EXCHANGE_API_KEY가 설정되어 있는지 확인해주세요.")
+# Streamlit Secrets에서 API 키 로드
+try:
+    EXCHANGE_API_KEY = st.secrets["EXCHANGE_API_KEY"]
+except KeyError:
+    st.error("Streamlit Cloud 설정(Secrets)에 EXCHANGE_API_KEY가 입력되지 않았습니다.")
     st.stop()
 
 # 주요 통화 목록
@@ -69,10 +84,10 @@ CURRENCIES = {
     "캐나다 달러 (CAD)": "CAD"
 }
 
-st.title("🌿 스마트 실시간 환율 계산기")
-st.markdown("실시간 환율 변동 확인과 금액별 맞춤 물가 체감 가이드, 수수료 계산 및 다중 통화 비교 기능을 제공합니다.")
+st.title("🌿 최유진의 스마트 무역/환율 대시보드")
+st.markdown("무역 데이터 시각화와 실시간 환율 분석을 위해 구축한 나만의 맞춤형 환율 대시보드입니다.")
 
-# 사이드바: 주요 통화 실시간 모니터링 대시보드 (기준: KRW)
+# 사이드바: 주요 통화 실시간 모니터링 대시보드 (기준: 원화 KRW)
 st.sidebar.header("📌 주요 통화 모니터링 (vs 원화)")
 try:
     sidebar_res = requests.get(f"https://v6.exchangerate-api.com/v6/{EXCHANGE_API_KEY}/latest/KRW")
@@ -81,8 +96,11 @@ try:
         for name, code in CURRENCIES.items():
             if code != "KRW" and code in sidebar_rates:
                 rate_value = sidebar_rates[code]
-                # JPY 같은 경우 100엔 기준이 보기 편할 수 있으므로 그대로 두되 소수점 처리
-                st.sidebar.text(f"1 {code} = {(1/rate_value):,.2f} KRW")
+                krw_per_unit = 1 / rate_value if rate_value > 0 else 0
+                if code == "JPY":
+                    st.sidebar.text(f"100엔(JPY) ≒ {krw_per_unit * 100:,.1f} KRW")
+                else:
+                    st.sidebar.text(f"1 {code} ≒ {krw_per_unit:,.2f} KRW")
     else:
         st.sidebar.text("모니터링 데이터 로드 실패")
 except Exception:
@@ -93,9 +111,9 @@ st.markdown("---")
 # 메인 계산기 UI
 col_from, col_to = st.columns(2)
 with col_from:
-    selected_base = st.selectbox("기준 통화 (From)", list(CURRENCIES.keys()), index=1) # 기본값: USD
+    selected_base = st.selectbox("기준 통화 (From)", list(CURRENCIES.keys()), index=1)
 with col_to:
-    selected_target = st.selectbox("변환할 통화 (To)", list(CURRENCIES.keys()), index=0) # 기본값: KRW
+    selected_target = st.selectbox("변환할 통화 (To)", list(CURRENCIES.keys()), index=0)
 
 base_code = CURRENCIES[selected_base]
 target_code = CURRENCIES[selected_target]
@@ -118,7 +136,6 @@ if st.button("환율 계산하기"):
             conversion_rate = data["conversion_rate"]
             converted_result = data["conversion_result"]
             
-            # 수수료/우대율 반영 계산 로직
             final_result = converted_result
             if apply_fee:
                 base_spread = 0.0197
@@ -127,7 +144,6 @@ if st.button("환율 계산하기"):
             
             st.success("환율 계산이 완료되었습니다!")
             
-            # 메인 결과 출력
             if apply_fee:
                 st.metric(
                     label=f"우대율 {fee_discount}% 반영 실 수령액 ({base_code} ➔ {target_code})",
@@ -141,7 +157,6 @@ if st.button("환율 계산하기"):
                     delta=f"적용 환율: 1 {base_code} = {conversion_rate:,.4f} {target_code}"
                 )
             
-            # 원화(KRW) 기준 환산치 계산 (물가 체감 가이드 티어 분류를 위함)
             krw_value = 0
             if target_code == "KRW":
                 krw_value = final_result
@@ -151,23 +166,33 @@ if st.button("환율 계산하기"):
                     krw_value = final_result * krw_res.json().get("conversion_rate", 0)
             
             # 부가 기능 2: 금액대별 세분화된 현지 물가 체감 가이드
-            st.markdown("### 🏷️ 현지 물가 체감 가이드 (원화 환산 비교)")
-            st.info(f"• **{base_code} {amount:,.0f}** ≒ 원화 기준 약 **{krw_value:,.0f}원** 가치")
+            st.markdown("### 🏷️ 현지 물가 체감 가이드")
             
-            if krw_value < 5000:
-                st.text("💡 체감 수준: 커피 한 잔, 편의점 간식 또는 가벼운 군것질거리 정도의 소액입니다.")
+            if base_code != "KRW":
+                st.info(f"• 입력하신 **{base_code} {amount:,.0f}**은(는) 원화로 약 **{krw_value:,.0f}원** 수준입니다.")
+            
+            if krw_value < 2000:
+                st.text("💡 체감 수준: 가벼운 편의점 간식, 껌, 생수 한 병 수준의 소액입니다.")
+            elif krw_value < 5000:
+                st.text("💡 체감 수준: 테이크아웃 커피 한 잔, 대중교통 기본 요금 정도의 금액입니다.")
+            elif krw_value < 10000:
+                st.text("💡 체감 수준: 프랜차이즈 햄버거 세트, 저렴한 식당에서의 한 끼 비용입니다.")
             elif krw_value < 20000:
-                st.text("💡 체감 수준: 패스트푸드 세트 메뉴나 가벼운 한 끼 식사 비용 수준입니다.")
+                st.text("💡 체감 수준: 캐주얼한 식당에서의 든든한 한 끼, 영화 티켓 한 장 수준입니다.")
             elif krw_value < 50000:
-                st.text("💡 체감 수준: 일반 식당에서의 든든한 한 끼 식사 또는 카페 투어 예산입니다.")
-            elif krw_value < 150000:
-                st.text("💡 체감 수준: 근사한 저녁 정식, 택시 이동 요금 또는 소형 쇼핑 품목 수준입니다.")
+                st.text("💡 체감 수준: 레스토랑 1인 식사, 2~3인용 치킨/피자, 가벼운 의류 쇼핑 예산입니다.")
+            elif krw_value < 100000:
+                st.text("💡 체감 수준: 근사한 저녁 정식 세트, 패밀리 레스토랑 외식, 소형 쇼핑 품목 수준입니다.")
+            elif krw_value < 250000:
+                st.text("💡 체감 수준: 비즈니스 호텔 1박 숙박비, 국내선 항공권, 브랜드 의류 쇼핑 예산입니다.")
             elif krw_value < 500000:
-                st.text("💡 체감 수준: 숙박비 일부, 중형 쇼핑 또는 주요 관광지 입장권/액티비티 패스 예산입니다.")
+                st.text("💡 체감 수준: 고급 호텔(호캉스) 1박, 프리미엄 전자기기, 단거리 해외 항공권 규모입니다.")
+            elif krw_value < 1000000:
+                st.text("💡 체감 수준: 명품 소품, 동남아시아 단기 여행 경비 수준의 중대형 자금입니다.")
             else:
-                st.text("💡 체감 수준: 호텔 숙박비, 대형 쇼핑 또는 항공권/장기 체류형 중대형 자금 규모입니다.")
+                st.text("💡 체감 수준: 장거리 해외 항공권, 하이엔드 전자기기, 장기 체류형 대형 자금 규모입니다.")
 
-            # 부가 기능 3: 다중 통화 동시 비교 (Multi-Currency Quick View)
+            # 부가 기능 3: 다중 통화 동시 비교
             st.markdown("### 🌐 주요 통화 동시 비교")
             st.markdown(f"**{base_code} {amount:,.0f}** 기준 다른 주요 통화 환산 가치입니다.")
             
@@ -184,9 +209,24 @@ if st.button("환율 계산하기"):
                             st.metric(label=c_name, value=f"{val:,.2f} {c_code}")
                         idx += 1
             
-            # 환율 변동 트렌드 인사이트
-            st.markdown("### 📈 환율 트렌드 및 환전 팁")
-            st.success("현재 환율 흐름이 비교적 안정적입니다. 필요한 만큼 분할 환전하는 전략을 추천합니다!")
+            # 부가 기능 4: 실시간 환율 데이터 기반 동적 트렌드 인사이트
+            st.markdown("### 📈 실시간 데이터 기반 환율 인사이트")
+            
+            spot_res = requests.get(f"https://v6.exchangerate-api.com/v6/{EXCHANGE_API_KEY}/pair/USD/KRW")
+            if spot_res.status_code == 200:
+                usdkrw_rate = spot_res.json().get("conversion_rate", 1300)
+                
+                if base_code == "USD" or target_code == "USD":
+                    if usdkrw_rate >= 1400:
+                        st.warning(f"현재 원/달러 환율이 {usdkrw_rate:,.2f}원으로 높은 수준(고환율기)입니다. 큰 금액 한 번에 환전하기보다는 소액씩 나누어 환전(분할 환전)하는 것을 강력히 추천합니다!")
+                    elif usdkrw_rate <= 1250:
+                        st.success(f"현재 원/달러 환율이 {usdkrw_rate:,.2f}원으로 비교적 안정적이거나 원화 강세 구간입니다. 여행이나 달러 매수에 유리한 타이밍입니다!")
+                    else:
+                        st.info(f"현재 원/달러 환율은 {usdkrw_rate:,.2f}원 선으로 완만하게 움직이고 있습니다. 주 단위 추이를 보며 필요 분량만큼 환전하세요.")
+                else:
+                    st.info(f"선택하신 통화 쌍의 현재 적용 환율({conversion_rate:,.4f})을 바탕으로 할 때, 외환 시장의 단기 변동성이 크지 않은 상태입니다. 우대 쿠폰을 활용해 알뜰하게 환전해 보세요.")
+            else:
+                st.info("현재 환율 흐름이 안정적입니다. 수수료 우대를 챙겨서 필요한 만큼만 환전하세요.")
             
         else:
             error_type = data.get("error-type", "알 수 없는 오류")
