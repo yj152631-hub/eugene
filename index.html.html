@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>상하이 여행 가이드 | Shanghai Travel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        .hero-pattern {
+            background-color: #000000;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)), url('https://images.unsplash.com/photo-1538428494232-9c0d8a3ab403?q=80&w=2000&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased">
+
+    <!-- Header / Navbar -->
+    <header class="fixed w-full z-50 transition-all duration-300" id="navbar">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-white tracking-wider flex items-center gap-2" id="logo">
+                <i class="fa-solid fa-plane-departure text-red-500"></i> SHANGHAI
+            </a>
+            
+            <!-- Desktop Menu -->
+            <nav class="hidden md:flex space-x-8">
+                <a href="#about" class="text-white hover:text-red-400 font-medium transition">소개</a>
+                <a href="#attractions" class="text-white hover:text-red-400 font-medium transition">명소</a>
+                <a href="#food" class="text-white hover:text-red-400 font-medium transition">미식</a>
+                <a href="#tips" class="text-white hover:text-red-400 font-medium transition">여행 팁</a>
+            </nav>
+
+            <!-- Mobile Menu Button -->
+            <button class="md:hidden text-white focus:outline-none" id="mobile-menu-btn">
+                <i class="fa-solid fa-bars text-2xl"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Panel -->
+        <div class="md:hidden hidden bg-white shadow-xl absolute w-full left-0" id="mobile-menu">
+            <div class="flex flex-col px-6 py-4 space-y-4">
+                <a href="#about" class="text-slate-800 hover:text-red-500 font-medium mobile-link">소개</a>
+                <a href="#attractions" class="text-slate-800 hover:text-red-500 font-medium mobile-link">명소</a>
+                <a href="#food" class="text-slate-800 hover:text-red-500 font-medium mobile-link">미식</a>
+                <a href="#tips" class="text-slate-800 hover:text-red-500 font-medium mobile-link">여행 팁</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-pattern h-screen flex items-center justify-center relative">
+        <div class="text-center px-4 animate-fade-in-up">
+            <h2 class="text-red-500 font-bold tracking-widest text-sm md:text-base uppercase mb-4">Discover China</h2>
+            <h1 class="text-5xl md:text-7xl font-black text-white mb-6 drop-shadow-lg">상하이 여행</h1>
+            <p class="text-lg md:text-2xl text-slate-200 mb-10 max-w-2xl mx-auto drop-shadow-md">
+                과거의 낭만과 미래의 혁신이 눈부시게 교차하는 도시.<br>
+                화려한 야경 속으로 떠나보세요.
+            </p>
+            <a href="#attractions" class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 text-lg">
+                여정 시작하기 <i class="fa-solid fa-arrow-down ml-2"></i>
+            </a>
+        </div>
+        
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-white/70">
+            <i class="fa-solid fa-chevron-down text-3xl"></i>
+        </div>
+    </section>
+
+    <!-- Attractions Section -->
+    <section id="attractions" class="py-24 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-sm font-bold text-red-500 uppercase tracking-widest mb-2">Must Visit</h2>
+                <h3 class="text-3xl md:text-4xl font-bold text-slate-800">상하이 필수 명소</h3>
+                <div class="w-24 h-1 bg-red-500 mx-auto mt-6 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <!-- Card 1 -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-lg card-hover border border-slate-100">
+                    <div class="h-64 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1505713426141-8c465228c2eb?q=80&w=800&auto=format&fit=crop" alt="와이탄" class="w-full h-full object-cover transition duration-500 hover:scale-110" onerror="this.src='https://placehold.co/800x600/e2e8f0/475569?text=The+Bund'">
+                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-red-600 shadow">
+                            #야경명소
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h4 class="text-xl font-bold mb-2 text-slate-800">와이탄 (The Bund)</h4>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            황푸강을 따라 늘어선 근대 서양식 건축물들이 빚어내는 환상적인 야경. 상하이의 아름다운 스카이라인을 한눈에 감상할 수 있는 최고의 포인트입니다.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-lg card-hover border border-slate-100">
+                    <div class="h-64 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1552591646-9f4492bfb990?q=80&w=800&auto=format&fit=crop" alt="예원" class="w-full h-full object-cover transition duration-500 hover:scale-110" onerror="this.src='https://placehold.co/800x600/e2e8f0/475569?text=Yu+Garden'">
+                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-red-600 shadow">
+                            #전통정원
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h4 class="text-xl font-bold mb-2 text-slate-800">예원 (Yu Garden)</h4>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            명나라 시대의 고풍스러운 강남식 전통 정원입니다. 밤이 되면 켜지는 화려한 전통 조명과 함께 낭만적인 분위기를 산책하며 즐길 수 있습니다.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-lg card-hover border border-slate-100">
+                    <div class="h-64 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1549693578-cbc7338e3e4a?q=80&w=800&auto=format&fit=crop" alt="동방명주" class="w-full h-full object-cover transition duration-500 hover:scale-110" onerror="this.src='https://placehold.co/800x600/e2e8f0/475569?text=Oriental+Pearl'">
+                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-red-600 shadow">
+                            #랜드마크
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h4 class="text-xl font-bold mb-2 text-slate-800">동방명주 (Oriental Pearl)</h4>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            독특한 구슬 모양이 인상적인 상하이의 랜드마크. 투명한 유리 바닥 전망대에서 발밑으로 펼쳐지는 아찔하고 짜릿한 상하이 시내를 경험해보세요.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Card 4 -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-lg card-hover border border-slate-100">
+                    <div class="h-64 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1582200262118-[...]" alt="난징동루" class="w-full h-full object-cover transition duration-500 hover:scale-110" onerror="this.src='https://placehold.co/800x600/e2e8f0/475569?text=Nanjing+Road'">
+                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-red-600 shadow">
+                            #쇼핑거리
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h4 class="text-xl font-bold mb-2 text-slate-800">난징동루 (Nanjing Road)</h4>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            상하이 최대의 번화가이자 보행자 거리입니다. 수많은 브랜드 샵과 역사적인 백화점들이 줄지어 있어 쇼핑과 관광을 동시에 즐길 수 있습니다.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-lg card-hover border border-slate-100">
+                    <div class="h-64 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1522060373200-[...]" alt="신천지" class="w-full h-full object-cover transition duration-500 hover:scale-110" onerror="this.src='https://placehold.co/800x600/e2e8f0/475569?text=Xintiandi'">
+                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-red-600 shadow">
+                            #카페거리
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h4 class="text-xl font-bold mb-2 text-slate-800">신천지 (Xintiandi)</h4>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            과거의 스쿠먼 건축 양식과 현대적인 라이프스타일이 결합된 핫플레이스입니다. 세련된 노천 카페, 레스토랑, 갤러리가 모여있습니다. 대한민국 임시정부도 근처에 있습니다.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Card 6 -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-lg card-hover border border-slate-100">
+                    <div class="h-64 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1601222442436-[...]" alt="디즈니랜드" class="w-full h-full object-cover transition duration-500 hover:scale-110" onerror="this.src='https://placehold.co/800x600/e2e8f0/475569?text=Disneyland'">
+                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-red-600 shadow">
+                            #테마파크
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h4 class="text-xl font-bold mb-2 text-slate-800">상하이 디즈니랜드</h4>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            세계 최대 규모의 디즈니 성과 최첨단 어트랙션이 있는 환상의 나라입니다. 영화 '트론'을 모티브로 한 오토바이 롤러코스터는 필수 코스입니다.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Food Section -->
+    <section id="food" class="py-24 bg-slate-100">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-sm font-bold text-red-500 uppercase tracking-widest mb-2">Local Taste</h2>
+                <h3 class="text-3xl md:text-4xl font-bold text-slate-800">상하이 미식 여행</h3>
+                <div class="w-24 h-1 bg-red-500 mx-auto mt-6 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="group relative rounded-2xl overflow-hidden h-80 shadow-md">
+                    <img src="https://images.unsplash.com/photo-1496116218417-1a781b1c416c?q=80&w=800&auto=format&fit=crop" alt="샤오롱바오" class="w-full h-full object-cover transition duration-500 group-hover:scale-110" onerror="this.src='https://placehold.co/600x800/e2e8f0/475569?text=Xiaolongbao'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6">
+                        <h4 class="text-xl font-bold text-white mb-1">샤오롱바오</h4>
+                        <p class="text-slate-300 text-sm">뜨거운 육즙이 터지는 상하이의 대표 만두. 흑식초에 생강을 곁들여 드세요.</p>
+                    </div>
+                </div>
+
+                <div class="group relative rounded-2xl overflow-hidden h-80 shadow-md">
+                    <img src="https://images.unsplash.com/photo-1541696432-82c6da8ce7bf?q=80&w=800&auto=format&fit=crop" alt="마라탕" class="w-full h-full object-cover transition duration-500 group-hover:scale-110" onerror="this.src='https://placehold.co/600x800/e2e8f0/475569?text=Spicy+Food'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6">
+                        <h4 class="text-xl font-bold text-white mb-1">셩지엔바오</h4>
+                        <p class="text-slate-300 text-sm">밑면은 바삭하고 위는 촉촉하게 구워낸 상하이식 군만두. 현지인들의 아침 식사로 인기입니다.</p>
+                    </div>
+                </div>
+
+                <div class="group relative rounded-2xl overflow-hidden h-80 shadow-md">
+                    <img src="https://images.unsplash.com/photo-1525755662778-989d0524087e?q=80&w=800&auto=format&fit=crop" alt="동파육" class="w-full h-full object-cover transition duration-500 group-hover:scale-110" onerror="this.src='https://placehold.co/600x800/e2e8f0/475569?text=Pork'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6">
+                        <h4 class="text-xl font-bold text-white mb-1">동파육</h4>
+                        <p class="text-slate-300 text-sm">간장 소스에 부드럽게 졸여내어 입안에서 살살 녹는 상하이식 돼지고기 요리입니다.</p>
+                    </div>
+                </div>
+
+                <div class="group relative rounded-2xl overflow-hidden h-80 shadow-md">
+                    <img src="https://images.unsplash.com/photo-1563245372-f21724e3856d?q=80&w=800&auto=format&fit=crop" alt="상하이 털게" class="w-full h-full object-cover transition duration-500 group-hover:scale-110" onerror="this.src='https://placehold.co/600x800/e2e8f0/475569?text=Crab'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6">
+                        <h4 class="text-xl font-bold text-white mb-1">따자시에 (털게)</h4>
+                        <p class="text-slate-300 text-sm">가을(10~11월) 상하이 방문 시 절대 놓쳐서는 안 될 고소한 알과 살을 품은 민물게 요리입니다.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Travel Tips Section -->
+    <section id="tips" class="py-24 bg-white relative overflow-hidden">
+        <!-- Background decoration -->
+        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 rounded-full bg-red-50 opacity-50 z-0"></div>
+        <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-blue-50 opacity-50 z-0"></div>
+
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center mb-16">
+                <h2 class="text-sm font-bold text-red-500 uppercase tracking-widest mb-2">Essential Info</h2>
+                <h3 class="text-3xl md:text-4xl font-bold text-slate-800">유용한 여행 팁</h3>
+                <div class="w-24 h-1 bg-red-500 mx-auto mt-6 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                <!-- Tip 1 -->
+                <div class="flex p-8 bg-slate-50 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition">
+                    <div class="flex-shrink-0 mr-6">
+                        <div class="w-14 h-14 bg-red-100 text-red-600 rounded-xl flex items-center justify-center text-2xl">
+                            <i class="fa-brands fa-alipay"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-bold mb-2 text-slate-800">모바일 결제 필수</h4>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            중국은 '현금 없는 사회'입니다. 여행 전 반드시 <strong>알리페이(Alipay)</strong>나 <strong>위챗페이(WeChat Pay)</strong> 앱을 다운로드하고 해외 결제가 가능한 카드를 연동해 두세요. 길거리 노점상부터 백화점까지 모두 QR코드로 결제합니다.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Tip 2 -->
+                <div class="flex p-8 bg-slate-50 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition">
+                    <div class="flex-shrink-0 mr-6">
+                        <div class="w-14 h-14 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center text-2xl">
+                            <i class="fa-solid fa-passport"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-bold mb-2 text-slate-800">비자 및 입국</h4>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            중국 본토 방문 시 <strong>관광 비자(L비자)</strong> 발급이 필수입니다. 일정에 여유를 두고 미리 발급받으세요. 특정 조건을 만족하면 144시간 무비자 환승 혜택을 이용할 수도 있습니다.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Tip 3 -->
+                <div class="flex p-8 bg-slate-50 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition">
+                    <div class="flex-shrink-0 mr-6">
+                        <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center text-2xl">
+                            <i class="fa-solid fa-train-subway"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-bold mb-2 text-slate-800">교통 수단</h4>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            상하이는 지하철 노선망이 매우 잘 되어 있어 대부분의 명소를 지하철로 이동할 수 있습니다. <strong>고덕지도(Amap)</strong>나 <strong>바이두지도(Baidu Maps)</strong> 앱을 설치하면 길 찾기와 택시(디디추싱) 호출에 매우 유용합니다. (구글맵은 부정확할 수 있습니다.)
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Tip 4 -->
+                <div class="flex p-8 bg-slate-50 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition">
+                    <div class="flex-shrink-0 mr-6">
+                        <div class="w-14 h-14 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center text-2xl">
+                            <i class="fa-solid fa-cloud-sun"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-bold mb-2 text-slate-800">추천 방문 시기</h4>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            상하이를 방문하기 가장 좋은 시기는 봄(4~5월)과 가을(9~11월)입니다. 날씨가 온화하여 도보 여행에 적합합니다. 중국의 대형 연휴인 노동절(5월 초)과 국경절(10월 초)은 인파가 몰리므로 피하는 것이 좋습니다.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
+        <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-6 md:mb-0">
+                <a href="#" class="text-xl font-bold text-white tracking-wider flex items-center gap-2 justify-center md:justify-start">
+                    <i class="fa-solid fa-plane-departure text-red-500"></i> SHANGHAI TRAVEL
+                </a>
+                <p class="mt-2 text-sm">당신의 완벽한 상하이 여행을 위한 가이드</p>
+            </div>
+            
+            <div class="flex space-x-6">
+                <a href="#" class="hover:text-white transition"><i class="fa-brands fa-instagram text-xl"></i></a>
+                <a href="#" class="hover:text-white transition"><i class="fa-brands fa-youtube text-xl"></i></a>
+                <a href="#" class="hover:text-white transition"><i class="fa-brands fa-facebook text-xl"></i></a>
+            </div>
+        </div>
+        <div class="container mx-auto px-6 mt-8 pt-8 border-t border-slate-800 text-sm text-center">
+            <p>&copy; 2026 Shanghai Travel Guide. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript for interactivity -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navbar = document.getElementById('navbar');
+            const logo = document.getElementById('logo');
+            const navLinks = navbar.querySelectorAll('nav a');
+            const mobileBtn = document.getElementById('mobile-menu-btn');
+
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('bg-white', 'shadow-md', 'py-3');
+                    navbar.classList.remove('py-4');
+                    logo.classList.remove('text-white');
+                    logo.classList.add('text-slate-800');
+                    navLinks.forEach(link => {
+                        link.classList.remove('text-white');
+                        link.classList.add('text-slate-800');
+                    });
+                    mobileBtn.classList.remove('text-white');
+                    mobileBtn.classList.add('text-slate-800');
+                } else {
+                    navbar.classList.remove('bg-white', 'shadow-md', 'py-3');
+                    navbar.classList.add('py-4');
+                    logo.classList.add('text-white');
+                    logo.classList.remove('text-slate-800');
+                    navLinks.forEach(link => {
+                        link.classList.add('text-white');
+                        link.classList.remove('text-slate-800');
+                    });
+                    mobileBtn.classList.add('text-white');
+                    mobileBtn.classList.remove('text-slate-800');
+                }
+            });
+
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileMenuLinks = document.querySelectorAll('.mobile-link');
+
+            mobileBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Close mobile menu when a link is clicked
+            mobileMenuLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
