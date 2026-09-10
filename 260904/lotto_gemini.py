@@ -236,3 +236,5 @@ if st.session_state.generated:
     with col_btn2:
         if st.button("🔄 다시 생성하기", key='re_generate_btn', use_container_width=True):
             st.rerun()
+
+            #qwerasdf
