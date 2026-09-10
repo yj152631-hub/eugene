@@ -4,6 +4,7 @@ import time
 import base64
 import os
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
 st.set_page_config(
     page_title="로또 번호 생성기", 
@@ -83,7 +84,6 @@ st.markdown(f"""
         animation: blink 1.2s infinite ease-in-out;
     }}
 
-    /* 생성 시각 칸: 직접 그린 HTML 박스 (글씨에 딱 맞음) */
     .custom-info-box {{
         display: inline-block !important;
         background-color: #E2FDCB !important;
@@ -96,7 +96,6 @@ st.markdown(f"""
         margin: 15px auto !important;
     }}
 
-    /* 번호 생성 버튼: 부모 컨테이너까지 flex로 잡아 중앙 정렬 + 버튼은 내용 너비 */
     div.st-key-lotto_generate_btn,
     div.st-key-lotto_generate_btn > div[data-testid="stElementContainer"] {{
         display: flex !important;
@@ -126,7 +125,17 @@ st.markdown(f"""
         box-shadow: 0 6px 10px rgba(0,0,0,0.2) !important;
     }}
 
-    /* 다시 생성하기 버튼 */
+    /* 하단 버튼 공통: 부모 컨테이너까지 flex 중앙 정렬 */
+    div.st-key-bottom_btns,
+    div.st-key-bottom_btns > div[data-testid="stElementContainer"] {{
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 12px !important;
+        width: 100% !important;
+    }}
+
     div.st-key-re_generate_btn button {{
         background-color: #4CAF50 !important;
         color: white !important;
@@ -150,7 +159,11 @@ st.markdown(f"""
         box-shadow: 0 6px 10px rgba(0,0,0,0.2) !important;
     }}
 
-    /* 로또 사러 가기 버튼 */
+    div.stLinkButton {{
+        display: flex !important;
+        justify-content: center !important;
+        width: 100% !important;
+    }}
     div.stLinkButton > a {{
         background-color: #FFFFFF !important;
         color: #2E7D32 !important;
@@ -174,25 +187,6 @@ st.markdown(f"""
         background-color: #F1F8F5 !important;
         color: #1B5E20 !important;
         border-color: #45a049 !important;
-    }}
-
-    /* 하단 두 버튼을 글씨 크기대로 가운데 나란히 배치 */
-    div.st-key-bottom_btns > div[data-testid="stHorizontalBlock"] {{
-        display: flex !important;
-        flex-direction: row !important;
-        justify-content: center !important;
-        align-items: center !important;
-        gap: 12px !important;
-        flex-wrap: wrap !important;
-    }}
-    div.st-key-bottom_btns div[data-testid="stColumn"] {{
-        width: auto !important;
-        flex: 0 0 auto !important;
-        min-width: 0 !important;
-    }}
-    div.st-key-bottom_btns div[data-testid="stColumn"] > div {{
-        display: flex !important;
-        justify-content: center !important;
     }}
 
     @media (max-width: 768px) {{
@@ -246,7 +240,7 @@ if st.session_state.generated:
     gif_placeholder.empty()
     st.balloons()  
     
-    now_str = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    now_str = datetime.now(ZoneInfo("Asia/Seoul")).strftime('%Y-%m-%d %H:%M:%S')
     st.markdown(f'<div style="text-align:center;"><span class="custom-info-box">⏱️ 생성 시각 : {now_str}</span></div>', unsafe_allow_html=True)
 
     for set_index in range(1, 6):
@@ -258,9 +252,6 @@ if st.session_state.generated:
     st.markdown('<p style="font-size: 1.3em; text-align: center; font-weight: normal; color: #111111; margin-bottom: 10px;">🍀 행운을 빕니다! 🍀</p >', unsafe_allow_html=True)
     
     with st.container(key='bottom_btns'):
-        col_btn1, col_btn2 = st.columns(2)
-        with col_btn1:
-            st.link_button("🛒 로또 사러 가기", "https://www.dhlottery.co.kr/")
-        with col_btn2:
-            if st.button("🔄 다시 생성하기", key='re_generate_btn'):
-                st.rerun()
+        st.link_button("🛒 로또 사러 가기", "https://www.dhlottery.co.kr/")
+        if st.button("🔄 다시 생성하기", key='re_generate_btn'):
+            st.rerun()
